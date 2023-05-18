@@ -2646,6 +2646,17 @@ def main():
     elif args.mode == 'list':
         show_project_hub(args.config_file)
 
+# Gunicorn entry point generator
+def application(*args, **kwargs):
+    # Gunicorn CLI args are useless.
+    # https://stackoverflow.com/questions/8495367/
+    #
+    # Start the application in modified environment.
+    # https://stackoverflow.com/questions/18668947/
+    #
+    import sys
+    sys.argv = ['--gunicorn','potato/flask_server.py', 'start', 'project-hub/simple_examples/configs/simple-check-box.yaml', '-p', '9000']
+    return main()
 
 if __name__ == "__main__":
     main()
